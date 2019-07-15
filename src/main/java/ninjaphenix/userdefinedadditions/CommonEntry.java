@@ -1,10 +1,8 @@
 package ninjaphenix.userdefinedadditions;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.item.Item;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.config.Config;
+import ninjaphenix.userdefinedadditions.config.data.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +22,6 @@ public class CommonEntry implements ModInitializer
 
     private void registerItems()
     {
-        Item item = new CustomItem(new Item.Settings(), Formatting.DARK_PURPLE);
-        Registry.register(Registry.ITEM, "uda:test_item", item);
+        Item[] items = Config.INSTANCE.getItems();
     }
 }
