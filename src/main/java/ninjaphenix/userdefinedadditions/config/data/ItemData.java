@@ -3,6 +3,8 @@ package ninjaphenix.userdefinedadditions.config.data;
 import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 
 public class ItemData
 {
@@ -40,5 +42,10 @@ public class ItemData
         if (item.food_component != null) jsonObject.put("food_component", marshaller.serialize(item.food_component));
         if (item.item_group != null) jsonObject.put("item_group", marshaller.serialize(item.item_group));
         return jsonObject;
+    }
+
+    public Item asMCObject()
+    {
+        return Items.APPLE;
     }
 }

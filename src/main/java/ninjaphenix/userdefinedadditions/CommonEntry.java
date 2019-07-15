@@ -2,10 +2,8 @@ package ninjaphenix.userdefinedadditions;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.config.Config;
@@ -85,64 +83,10 @@ public class CommonEntry implements ModInitializer
 
     private void validate_and_registerItems(Map<Identifier, ItemGroup> itemGroups)
     {
-        // Lets create a local copy because we might be fixing a lot of identifiers.
-        Config instance = Config.INSTANCE;
-        ItemData[] items = instance.getItems();
+        ItemData[] items = Config.INSTANCE.getItems();
         for (ItemData item : items)
         {
-            // Check if all data is valid
-            Identifier identifier;
-            try
-            {
-                if (item.identifier.contains(":")) identifier = new Identifier(item.identifier);
-                else identifier = instance.getId(item.identifier);
-            }
-            catch (Exception e)
-            {
-                LOGGER.error(
-                        "[{}] Failed to create item with identifier \"{}\" as the identifier could not be created. Please ensure that the string only consists of lower case letters, underscores and a single :",
-                        MOD_ID, item.identifier);
-                continue;
-            }
-            Integer maxStackSize = item.max_stack;
-            if (maxStackSize == null) maxStackSize = 64;
-            else if (maxStackSize < 1 || maxStackSize > 64)
-            {
-                LOGGER.warn("[{}] Item \"{}\" had an invalid stack size, using default of 64.", MOD_ID, identifier);
-                maxStackSize = 64;
-            }
-            Formatting fontColor = Formatting.byName(item.font_color);
-            if (item.font_color == null) fontColor = Formatting.WHITE;
-            else if (fontColor == null)
-            {
-                LOGGER.warn("[{}] Item \"{}\" had an invalid font color, using default of WHITE.", MOD_ID, identifier);
-                fontColor = Formatting.WHITE;
-            }
-            ItemGroup itemGroup = null;
-            Identifier id;
-            try
-            {
-                if (item.item_group.contains(":")) id = new Identifier(item.item_group);
-                else id = instance.getId(item.item_group);
-            }
-            catch (Exception e)
-            {
-                LOGGER.error(
-                        "[{}] Failed to create item's item group identifier \"{}\" as the identifier could not be created. Please ensure that the string only consists of lower case letters, underscores and a single :",
-                        MOD_ID, item.identifier);
-                continue;
-            }
-            if(itemGroups.containsKey(id)) itemGroup = itemGroups.get(id);
-            Item.Settings settings = new Item.Settings().maxCount(maxStackSize);
-            if (itemGroup != null) settings.group(itemGroup);
-            if (item.food_component == null)
-            {
-                Registry.register(Registry.ITEM, identifier, new CustomItem(settings, fontColor));
-            }
-            else
-            {
-                // Its a food more validation checks.
-            }
+            Registry.register(Registry.ITEM, item.identifier, item.asMCObject());
         }
     }
 }
