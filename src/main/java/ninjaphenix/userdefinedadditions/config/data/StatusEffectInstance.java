@@ -5,12 +5,12 @@ import net.minecraft.util.Identifier;
 
 public class StatusEffectInstance
 {
-    private Identifier effect;
-    private int length;
-    private int power;
-    private boolean visible;
+    public Identifier effect;
+    public int length;
+    public int power;
+    public boolean visible;
 
-    public StatusEffectInstance(Identifier effect, int length, int power, boolean visible)
+    private StatusEffectInstance(Identifier effect, int length, int power, boolean visible)
     {
         this.effect = effect;
         this.length = length;

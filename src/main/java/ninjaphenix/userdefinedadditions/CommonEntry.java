@@ -29,12 +29,14 @@ public class CommonEntry implements ModInitializer
         Item[] items = instance.getItems();
         ArrayList<Item> validItems = new ArrayList<>();
 
-        // Check if all data is valid
+        for (Item item : items)
+        {
+            // Check if all data is valid
 
-        // fix mod identifiers
+            // fix mod identifiers
 
-        // if invalid log error and don't add item to list
-
+            // if invalid log error and don't add item to list
+        }
         this.registerItems(validItems.toArray(new Item[]{}));
     }
 

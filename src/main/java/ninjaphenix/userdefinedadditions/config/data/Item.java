@@ -4,13 +4,13 @@ import blue.endless.jankson.JsonObject;
 
 public class Item
 {
-    private String identifier;
-    private String font_color;
-    private FoodComponent food_component;
-    private int max_stack;
-    private String item_group;
+    public String identifier;
+    public String font_color;
+    public FoodComponent food_component;
+    public int max_stack;
+    public String item_group;
 
-    public Item(String identifier, String font_color, FoodComponent food_component, int max_stack, String item_group)
+    private Item(String identifier, String font_color, FoodComponent food_component, int max_stack, String item_group)
     {
         this.identifier = identifier;
         this.font_color = font_color;
