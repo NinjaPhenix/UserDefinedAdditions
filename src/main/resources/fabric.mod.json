@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "userdefinedadditions",
+  "version": "${version}",
+  "name": "AOF Extras",
+  "description": "Additional items for AOF packs.",
+  "authors": [
+    "NinjaPhenix"
+  ],
+  "license": "MIT",
+  "icon": "assets/userdefinedadditions/logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ninjaphenix.userdefinedadditions.CommonEntry"
+    ]
+  },
+  "requires": {
+    "fabricloader": ">=0.4.0"
+  }
+}
