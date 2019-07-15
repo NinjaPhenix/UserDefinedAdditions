@@ -29,6 +29,7 @@ public class Config
         marshaller.registerTypeAdapter(StatusEffectInstance.class, StatusEffectInstance::parse);
         marshaller.registerTypeAdapter(FoodComponent.class, FoodComponent::parse);
         marshaller.registerTypeAdapter(Item.class, Item::parse);
+        marshaller.registerSerializer(Item.class, Item::serialize);
         Path configDirectory = FabricLoader.getInstance().getConfigDirectory().toPath();
         INSTANCE = ConfigManager.loadConfig(Config.class, configDirectory.resolve("UserDefinedAdditions.cfg").toFile());
     }

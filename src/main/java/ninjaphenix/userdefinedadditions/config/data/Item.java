@@ -1,6 +1,8 @@
 package ninjaphenix.userdefinedadditions.config.data;
 
+import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.impl.Marshaller;
 
 public class Item
 {
@@ -27,5 +29,16 @@ public class Item
         Integer max_stack = object.get(Integer.class, "max_stack");
         String item_group = object.get(String.class, "item_group");
         return new Item(identifier, font_color, foodComponent, max_stack, item_group);
+    }
+
+    public static JsonElement serialize(Item item, Marshaller marshaller)
+    {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("identifier", marshaller.serialize(item.identifier));
+        jsonObject.put("max_stack", marshaller.serialize(item.max_stack));
+        if (item.font_color != null) jsonObject.put("font_color", marshaller.serialize(item.font_color));
+        if (item.food_component != null) jsonObject.put("food_component", marshaller.serialize(item.food_component));
+        if (item.item_group != null) jsonObject.put("item_group", marshaller.serialize(item.item_group));
+        return jsonObject;
     }
 }

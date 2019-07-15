@@ -1,10 +1,10 @@
 package ninjaphenix.userdefinedadditions;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.config.Config;
 import ninjaphenix.userdefinedadditions.config.data.Item;
 import org.apache.logging.log4j.LogManager;
@@ -91,8 +91,16 @@ public class CommonEntry implements ModInitializer
                     LOGGER.warn("[{}] Item \"{}\" had an invalid item group, using default of MISC.", MOD_ID, identifier);
                     itemGroup = ItemGroup.MISC;
             }
-            FoodComponent.Builder foodComponent = new FoodComponent.Builder();
-
+            if (item.food_component == null)
+            {
+                // Lets register our item as its not a food
+                Registry.register(Registry.ITEM, identifier, new CustomItem(new net.minecraft.item.Item.Settings().group(itemGroup).maxCount(maxStackSize),
+                        fontColor));
+            }
+            else
+            {
+                // Its a food more validation checks.
+            }
         }
     }
 }
