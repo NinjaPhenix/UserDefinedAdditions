@@ -4,15 +4,15 @@ import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 
-public class Item
+public class ItemData
 {
     public String identifier;
     public String font_color;
-    public FoodComponent food_component;
+    public FoodComponentData food_component;
     public Integer max_stack;
     public String item_group;
 
-    private Item(String identifier, String font_color, FoodComponent food_component, Integer max_stack, String item_group)
+    private ItemData(String identifier, String font_color, FoodComponentData food_component, Integer max_stack, String item_group)
     {
         this.identifier = identifier;
         this.font_color = font_color;
@@ -21,17 +21,17 @@ public class Item
         this.item_group = item_group;
     }
 
-    public static Item parse(JsonObject object)
+    public static ItemData parse(JsonObject object)
     {
         String identifier = object.get(String.class, "identifier");
         String font_color = object.get(String.class, "font_color");
-        FoodComponent foodComponent = object.get(FoodComponent.class, "food_component");
+        FoodComponentData foodComponent = object.get(FoodComponentData.class, "food_component");
         Integer max_stack = object.get(Integer.class, "max_stack");
         String item_group = object.get(String.class, "item_group");
-        return new Item(identifier, font_color, foodComponent, max_stack, item_group);
+        return new ItemData(identifier, font_color, foodComponent, max_stack, item_group);
     }
 
-    public static JsonElement serialize(Item item, Marshaller marshaller)
+    public static JsonElement serialize(ItemData item, Marshaller marshaller)
     {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put("identifier", marshaller.serialize(item.identifier));
