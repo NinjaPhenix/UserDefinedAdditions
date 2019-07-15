@@ -15,7 +15,7 @@
       "ninjaphenix.userdefinedadditions.CommonEntry"
     ]
   },
-  "requires": {
+  "depends": {
     "fabricloader": ">=0.4.0"
   }
 }
