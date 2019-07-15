@@ -33,5 +33,7 @@ public class Config
         INSTANCE = ConfigManager.loadConfig(Config.class, configDirectory.resolve("UserDefinedAdditions.cfg").toFile());
     }
 
+    public Identifier getId(String path) { return new Identifier(default_modid, path); }
+
     public Item[] getItems() { return dummy_items; }
 }
