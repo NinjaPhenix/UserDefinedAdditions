@@ -4,11 +4,11 @@ import blue.endless.jankson.JsonObject;
 
 public class FoodComponent
 {
-    public int hunger;
-    public float saturation;
-    public boolean is_meat;
-    public boolean is_always_edible;
-    public boolean is_snack;
+    public Integer hunger;
+    public Float saturation;
+    public Boolean is_meat;
+    public Boolean is_always_edible;
+    public Boolean is_snack;
     public StatusEffectInstance[] status_effects;
 
     private FoodComponent(int hunger, float saturation, boolean is_meat, boolean is_always_edible, boolean is_snack, StatusEffectInstance[] status_effects)

@@ -6,9 +6,9 @@ import net.minecraft.util.Identifier;
 public class StatusEffectInstance
 {
     public Identifier effect;
-    public int length;
-    public int power;
-    public boolean visible;
+    public Integer length;
+    public Integer power;
+    public Boolean visible;
 
     private StatusEffectInstance(Identifier effect, int length, int power, boolean visible)
     {

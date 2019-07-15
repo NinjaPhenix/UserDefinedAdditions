@@ -7,10 +7,10 @@ public class Item
     public String identifier;
     public String font_color;
     public FoodComponent food_component;
-    public int max_stack;
+    public Integer max_stack;
     public String item_group;
 
-    private Item(String identifier, String font_color, FoodComponent food_component, int max_stack, String item_group)
+    private Item(String identifier, String font_color, FoodComponent food_component, Integer max_stack, String item_group)
     {
         this.identifier = identifier;
         this.font_color = font_color;
