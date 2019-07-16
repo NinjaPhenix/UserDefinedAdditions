@@ -4,7 +4,12 @@ import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+import ninjaphenix.userdefinedadditions.CommonEntry;
+import ninjaphenix.userdefinedadditions.CustomItem;
+import ninjaphenix.userdefinedadditions.config.Config;
 
 public class ItemData
 {
@@ -44,8 +49,24 @@ public class ItemData
         return jsonObject;
     }
 
-    public Item asMCObject()
+    public Pair<Identifier, Item> asMCObject()
     {
-        return Items.APPLE;
+        Identifier itemID;
+        Formatting fontColor;
+        try
+        {
+            if (identifier.contains(":")) itemID = new Identifier(identifier);
+            else itemID = Config.INSTANCE.getId(identifier);
+        }
+        catch (Exception e)
+        {
+            CommonEntry.LOGGER.error(
+                    "[{}] Failed to create item with identifier \"{}\" as the identifier could not be created. Please ensure that the string only consists of lower case letters, underscores and a single :",
+                    CommonEntry.MOD_ID, identifier);
+            return null;
+        }
+        fontColor = Formatting.byName(font_color);
+        Item.Settings settings = new Item.Settings();
+        return new Pair<>(itemID, new CustomItem(settings, fontColor == null ? Formatting.WHITE : fontColor));
     }
 }

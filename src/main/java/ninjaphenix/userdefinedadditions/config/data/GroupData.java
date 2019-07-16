@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 import ninjaphenix.userdefinedadditions.config.Config;
@@ -13,7 +14,6 @@ public class GroupData
 {
     public String identifier;
     public String icon;
-
 
     private GroupData(String identifier, String icon)
     {
@@ -28,13 +28,13 @@ public class GroupData
         return new GroupData(identifier, icon);
     }
 
-    public ItemGroup asMCObject()
+    public Pair<Identifier, ItemGroup> asMCObject()
     {
         Identifier groupName;
         Identifier groupIcon;
         try
         {
-            if(identifier.contains(":")) { groupName = new Identifier(identifier); }
+            if (identifier.contains(":")) { groupName = new Identifier(identifier); }
             else { groupName = Config.INSTANCE.getId(identifier); }
         }
         catch (Exception e)
@@ -44,7 +44,7 @@ public class GroupData
         }
         try
         {
-            if(icon.contains(":")) { groupIcon = new Identifier(icon); }
+            if (icon.contains(":")) { groupIcon = new Identifier(icon); }
             else { groupIcon = Config.INSTANCE.getId(icon); }
         }
         catch (Exception e)
@@ -52,11 +52,6 @@ public class GroupData
             CommonEntry.LOGGER.warn("[{}] Failed to create item group with icon: {}, cannot create Identifier.", CommonEntry.MOD_ID, icon);
             return null;
         }
-        if(!Registry.ITEM.containsId(groupIcon))
-        {
-            CommonEntry.LOGGER.warn("[{}] Failed to create item group with icon: {}, Item does not exist..", CommonEntry.MOD_ID, icon);
-            return null;
-        }
-        return FabricItemGroupBuilder.create(groupName).icon(() -> new ItemStack(Registry.ITEM.get(groupIcon))).build();
+        return new Pair(groupName, FabricItemGroupBuilder.create(groupName).icon(() -> new ItemStack(Registry.ITEM.get(groupIcon))).build());
     }
 }
