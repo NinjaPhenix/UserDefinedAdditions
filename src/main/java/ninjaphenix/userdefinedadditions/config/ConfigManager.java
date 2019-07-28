@@ -22,7 +22,7 @@ public class ConfigManager
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Jankson jankson = new Jankson.Builder().build();
 
-    static Marshaller getMarshaller() { return jankson.getMarshaller(); }
+    public static Marshaller getMarshaller() { return jankson.getMarshaller(); }
 
     @SuppressWarnings("ConstantConditions")
     static <T> T loadConfig(Class<T> clazz, File configFile)

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.4-SNAPSHOT'
+    id 'fabric-loom' version '0.2.5-SNAPSHOT'
     id "com.wynprice.cursemaven" version "1.1.0"
 }
 
@@ -15,9 +15,6 @@ repositories {
     maven { url "https://tehnut.info/maven/" }
 }
 
-minecraft {
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings "net.fabricmc:yarn:${minecraft_version}+${yarn_version}"
@@ -29,15 +26,6 @@ dependencies {
     // Jankson
         modApi curse.resolve("jankson", "2732416")
         include curse.resolve("jankson", "2732416")
-    //REI
-        //modCompile "net.fabricmc.fabric-api:fabric-keybindings-v0:0.1.1+7dfef87c"
-        //modCompile "net.fabricmc.fabric-api:fabric-events-lifecycle-v0:0.1.0+59147463"
-        //modCompile "net.fabricmc.fabric-api:fabric-resource-loader-v0:0.1.1+59147463"
-        modCompile "cloth:ClothEvents:0.3.1.23"
-        modCompile "cloth-config:ClothConfig2:0.2.0"
-        modApi 'roughly-enough-items:RoughlyEnoughItems:2.9.6+build.138'
-    // ModMenu
-        modCompile "io.github.prospector.modmenu:ModMenu:1.5.4-85"
 }
 
 processResources{

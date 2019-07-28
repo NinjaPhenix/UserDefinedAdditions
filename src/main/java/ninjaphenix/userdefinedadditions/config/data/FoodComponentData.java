@@ -1,6 +1,8 @@
 package ninjaphenix.userdefinedadditions.config.data;
 
+import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
+import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
 import ninjaphenix.userdefinedadditions.CommonEntry;
@@ -27,13 +29,22 @@ public class FoodComponentData
 
     public static FoodComponentData parse(JsonObject object)
     {
+        System.out.println("Parsing food component:");
         Integer hunger = object.get(Integer.class, "hunger");
+        System.out.println("Hunger="+hunger);
         Float saturation = object.get(Float.class, "saturation");
+        System.out.println("Saturation="+saturation);
         Boolean is_meat = object.get(Boolean.class, "is_meat");
+        System.out.println("Meat? "+is_meat);
         Boolean is_always_edible = object.get(Boolean.class, "is_always_edible");
+        System.out.println("Always edible? "+is_always_edible);
         Boolean is_snack = object.get(Boolean.class, "is_snack");
+        System.out.println("Snack? "+is_snack);
         StatusEffectInstanceData[] status_effects = object.get(StatusEffectInstanceData[].class, "status_effects");
-        return new FoodComponentData(hunger, saturation, is_meat, is_always_edible, is_snack, status_effects);
+        System.out.println("Status Effects="+status_effects);
+        FoodComponentData rv = new FoodComponentData(hunger, saturation, is_meat, is_always_edible, is_snack, status_effects);
+        System.out.println("Returning "+rv);
+        return rv;
     }
 
     public FoodComponent asMCObject()
@@ -63,5 +74,17 @@ public class FoodComponentData
             }
         }
         return builder.build();
+    }
+
+    public static JsonElement serialize(FoodComponentData foodComponentData, Marshaller marshaller)
+    {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("hunger", marshaller.serialize(foodComponentData.hunger));
+        jsonObject.put("saturation", marshaller.serialize(foodComponentData.saturation));
+        if (foodComponentData.is_meat != null) jsonObject.put("is_meat", marshaller.serialize(foodComponentData.is_meat));
+        if (foodComponentData.is_always_edible != null) jsonObject.put("is_always_edible", marshaller.serialize(foodComponentData.is_always_edible));
+        if (foodComponentData.is_snack != null) jsonObject.put("is_snack", marshaller.serialize(foodComponentData.is_snack));
+        if (foodComponentData.status_effects != null) jsonObject.put("status_effects", marshaller.serialize(foodComponentData.status_effects));
+        return jsonObject;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.util.Pair;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 import ninjaphenix.userdefinedadditions.CustomItem;
 import ninjaphenix.userdefinedadditions.config.Config;
+import ninjaphenix.userdefinedadditions.config.ConfigManager;
 
 public class ItemData
 {
@@ -32,17 +33,19 @@ public class ItemData
     {
         String identifier = object.get(String.class, "identifier");
         String font_color = object.get(String.class, "font_color");
-        FoodComponentData foodComponent = object.get(FoodComponentData.class, "food_component");
+        System.out.println("Attempting to read food component.");
+        FoodComponentData food_component = object.get(FoodComponentData.class, "food_component");
+        System.out.println("Read: " + food_component);
         Integer max_stack = object.get(Integer.class, "max_stack");
         String item_group = object.get(String.class, "item_group");
-        return new ItemData(identifier, font_color, foodComponent, max_stack, item_group);
+        return new ItemData(identifier, font_color, food_component, max_stack, item_group);
     }
 
     public static JsonElement serialize(ItemData item, Marshaller marshaller)
     {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put("identifier", marshaller.serialize(item.identifier));
-        jsonObject.put("max_stack", marshaller.serialize(item.max_stack));
+        if (item.max_stack != null) jsonObject.put("max_stack", marshaller.serialize(item.max_stack));
         if (item.font_color != null) jsonObject.put("font_color", marshaller.serialize(item.font_color));
         if (item.food_component != null) jsonObject.put("food_component", marshaller.serialize(item.food_component));
         if (item.item_group != null) jsonObject.put("item_group", marshaller.serialize(item.item_group));
@@ -67,6 +70,8 @@ public class ItemData
         }
         fontColor = Formatting.byName(font_color);
         Item.Settings settings = new Item.Settings();
+        if (food_component != null) settings.food(food_component.asMCObject());
+        if (max_stack != null) settings.maxCount(max_stack);
         return new Pair<>(itemID, new CustomItem(settings, fontColor == null ? Formatting.WHITE : fontColor));
     }
 }
