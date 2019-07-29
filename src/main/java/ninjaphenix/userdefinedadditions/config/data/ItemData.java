@@ -10,7 +10,6 @@ import net.minecraft.util.Pair;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 import ninjaphenix.userdefinedadditions.CustomItem;
 import ninjaphenix.userdefinedadditions.config.Config;
-import ninjaphenix.userdefinedadditions.config.ConfigManager;
 
 public class ItemData
 {
@@ -70,6 +69,19 @@ public class ItemData
         Item.Settings settings = new Item.Settings();
         if (food_component != null) settings.food(food_component.asMCObject());
         if (max_stack != null) settings.maxCount(max_stack);
+
+        Identifier group = null;
+        try
+        {
+            if (item_group.contains(":")) group = new Identifier(item_group);
+            else group = Config.INSTANCE.getId(item_group);
+        }
+        catch (Exception e)
+        {
+            CommonEntry.LOGGER.warn("[{}] Failed to create itemgroup for item {} with group {}", CommonEntry.MOD_ID, identifier, item_group);
+        }
+        if (CommonEntry.itemGroups.containsKey(group)) settings.group(CommonEntry.itemGroups.get(group));
+
         return new Pair<>(itemID, new CustomItem(settings, fontColor == null ? Formatting.WHITE : fontColor));
     }
 }

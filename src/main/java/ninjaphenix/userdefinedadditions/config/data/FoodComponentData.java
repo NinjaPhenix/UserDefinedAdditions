@@ -38,6 +38,18 @@ public class FoodComponentData
         return new FoodComponentData(hunger, saturation, is_meat, is_always_edible, is_snack, status_effects);
     }
 
+    public static JsonElement serialize(FoodComponentData foodComponentData, Marshaller marshaller)
+    {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("hunger", marshaller.serialize(foodComponentData.hunger));
+        jsonObject.put("saturation", marshaller.serialize(foodComponentData.saturation));
+        if (foodComponentData.is_meat != null) jsonObject.put("is_meat", marshaller.serialize(foodComponentData.is_meat));
+        if (foodComponentData.is_always_edible != null) jsonObject.put("is_always_edible", marshaller.serialize(foodComponentData.is_always_edible));
+        if (foodComponentData.is_snack != null) jsonObject.put("is_snack", marshaller.serialize(foodComponentData.is_snack));
+        if (foodComponentData.status_effects != null) jsonObject.put("status_effects", marshaller.serialize(foodComponentData.status_effects));
+        return jsonObject;
+    }
+
     public FoodComponent asMCObject()
     {
         if (hunger == null || hunger < 0)
@@ -65,17 +77,5 @@ public class FoodComponentData
             }
         }
         return builder.build();
-    }
-
-    public static JsonElement serialize(FoodComponentData foodComponentData, Marshaller marshaller)
-    {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.put("hunger", marshaller.serialize(foodComponentData.hunger));
-        jsonObject.put("saturation", marshaller.serialize(foodComponentData.saturation));
-        if (foodComponentData.is_meat != null) jsonObject.put("is_meat", marshaller.serialize(foodComponentData.is_meat));
-        if (foodComponentData.is_always_edible != null) jsonObject.put("is_always_edible", marshaller.serialize(foodComponentData.is_always_edible));
-        if (foodComponentData.is_snack != null) jsonObject.put("is_snack", marshaller.serialize(foodComponentData.is_snack));
-        if (foodComponentData.status_effects != null) jsonObject.put("status_effects", marshaller.serialize(foodComponentData.status_effects));
-        return jsonObject;
     }
 }

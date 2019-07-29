@@ -39,20 +39,20 @@ public class StatusEffectInstanceData
         JsonObject object = new JsonObject();
         object.put("effect", marshaller.serialize(data.effect));
         object.put("length", marshaller.serialize(data.length));
-        if(data.power != null) object.put("power", marshaller.serialize(data.power));
-        if(data.visible != null) object.put("visible", marshaller.serialize(data.visible));
-        if(data.chance != null) object.put("chance", marshaller.serialize(data.chance));
+        if (data.power != null) object.put("power", marshaller.serialize(data.power));
+        if (data.visible != null) object.put("visible", marshaller.serialize(data.visible));
+        if (data.chance != null) object.put("chance", marshaller.serialize(data.chance));
         return object;
     }
 
     public StatusEffectInstance asMCObject()
     {
-        if(!Registry.STATUS_EFFECT.containsId(effect))
+        if (!Registry.STATUS_EFFECT.containsId(effect))
         {
             CommonEntry.LOGGER.warn("[{}] Failed to create status effect, effect {} does not exist..", CommonEntry.MOD_ID, effect);
             return null;
         }
-        if(length == null || length < 0)
+        if (length == null || length < 0)
         {
             CommonEntry.LOGGER.warn("[{}] Failed to create status effect, length is not defined or less than 0.", CommonEntry.MOD_ID);
             return null;
