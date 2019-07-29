@@ -16,7 +16,7 @@ public class FoodComponentData
     public Boolean is_snack;
     public StatusEffectInstanceData[] status_effects;
 
-    private FoodComponentData(int hunger, float saturation, boolean is_meat, boolean is_always_edible, boolean is_snack,
+    private FoodComponentData(Integer hunger, Float saturation, Boolean is_meat, Boolean is_always_edible, Boolean is_snack,
             StatusEffectInstanceData[] status_effects)
     {
         this.hunger = hunger;
@@ -29,22 +29,13 @@ public class FoodComponentData
 
     public static FoodComponentData parse(JsonObject object)
     {
-        System.out.println("Parsing food component:");
         Integer hunger = object.get(Integer.class, "hunger");
-        System.out.println("Hunger="+hunger);
         Float saturation = object.get(Float.class, "saturation");
-        System.out.println("Saturation="+saturation);
         Boolean is_meat = object.get(Boolean.class, "is_meat");
-        System.out.println("Meat? "+is_meat);
         Boolean is_always_edible = object.get(Boolean.class, "is_always_edible");
-        System.out.println("Always edible? "+is_always_edible);
         Boolean is_snack = object.get(Boolean.class, "is_snack");
-        System.out.println("Snack? "+is_snack);
         StatusEffectInstanceData[] status_effects = object.get(StatusEffectInstanceData[].class, "status_effects");
-        System.out.println("Status Effects="+status_effects);
-        FoodComponentData rv = new FoodComponentData(hunger, saturation, is_meat, is_always_edible, is_snack, status_effects);
-        System.out.println("Returning "+rv);
-        return rv;
+        return new FoodComponentData(hunger, saturation, is_meat, is_always_edible, is_snack, status_effects);
     }
 
     public FoodComponent asMCObject()
@@ -60,9 +51,9 @@ public class FoodComponentData
             return null;
         }
         FoodComponent.Builder builder = new FoodComponent.Builder().hunger(hunger).saturationModifier(saturation);
-        if (is_meat) builder.meat();
-        if (is_always_edible) builder.alwaysEdible();
-        if (is_snack) builder.snack();
+        if (is_meat != null && is_meat) builder.meat();
+        if (is_always_edible != null && is_always_edible) builder.alwaysEdible();
+        if (is_snack != null && is_snack) builder.snack();
         if (status_effects != null)
         {
             for (StatusEffectInstanceData status_effect : status_effects)

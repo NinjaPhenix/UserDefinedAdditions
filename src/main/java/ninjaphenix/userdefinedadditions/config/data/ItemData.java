@@ -33,9 +33,7 @@ public class ItemData
     {
         String identifier = object.get(String.class, "identifier");
         String font_color = object.get(String.class, "font_color");
-        System.out.println("Attempting to read food component.");
         FoodComponentData food_component = object.get(FoodComponentData.class, "food_component");
-        System.out.println("Read: " + food_component);
         Integer max_stack = object.get(Integer.class, "max_stack");
         String item_group = object.get(String.class, "item_group");
         return new ItemData(identifier, font_color, food_component, max_stack, item_group);

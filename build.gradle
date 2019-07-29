@@ -26,6 +26,8 @@ dependencies {
     // Jankson
         modApi curse.resolve("jankson", "2732416")
         include curse.resolve("jankson", "2732416")
+    // ModMenu
+        modCompile "io.github.prospector:modmenu:1.7.1+build.109"
 }
 
 processResources{

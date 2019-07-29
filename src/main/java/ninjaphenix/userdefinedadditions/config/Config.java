@@ -38,7 +38,7 @@ public class Config
         marshaller.registerSerializer(FoodComponentData.class, FoodComponentData::serialize);
         marshaller.registerSerializer(ItemData.class, ItemData::serialize);
         Path configDirectory = FabricLoader.getInstance().getConfigDirectory().toPath();
-        INSTANCE = ConfigManager.loadConfig(Config.class, configDirectory.resolve("UserDefinedAdditions.cfg").toFile());
+        INSTANCE = ConfigManager.loadConfig(Config.class, configDirectory.resolve("UserDefinedAdditions.json").toFile());
     }
 
     public Identifier getId(String path) { return new Identifier(default_modid, path); }
