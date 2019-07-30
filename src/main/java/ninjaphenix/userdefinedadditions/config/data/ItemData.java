@@ -14,15 +14,15 @@ import ninjaphenix.userdefinedadditions.config.Config;
 public class ItemData
 {
     public String identifier;
-    public String font_formatting;
+    public String text_formatting;
     public FoodComponentData food_component;
     public Integer max_stack;
     public String item_group;
 
-    private ItemData(String identifier, String font_formatting, FoodComponentData food_component, Integer max_stack, String item_group)
+    private ItemData(String identifier, String text_formatting, FoodComponentData food_component, Integer max_stack, String item_group)
     {
         this.identifier = identifier;
-        this.font_formatting = font_formatting;
+        this.text_formatting = text_formatting;
         this.food_component = food_component;
         this.max_stack = max_stack;
         this.item_group = item_group;
@@ -31,11 +31,11 @@ public class ItemData
     public static ItemData parse(JsonObject object)
     {
         String identifier = object.get(String.class, "identifier");
-        String font_formatting = object.get(String.class, "font_formatting");
+        String text_formatting = object.get(String.class, "text_formatting");
         FoodComponentData food_component = object.get(FoodComponentData.class, "food_component");
         Integer max_stack = object.get(Integer.class, "max_stack");
         String item_group = object.get(String.class, "item_group");
-        return new ItemData(identifier, font_formatting, food_component, max_stack, item_group);
+        return new ItemData(identifier, text_formatting, food_component, max_stack, item_group);
     }
 
     public static JsonElement serialize(ItemData item, Marshaller marshaller)
@@ -43,7 +43,7 @@ public class ItemData
         JsonObject jsonObject = new JsonObject();
         jsonObject.put("identifier", marshaller.serialize(item.identifier));
         if (item.max_stack != null) jsonObject.put("max_stack", marshaller.serialize(item.max_stack));
-        if (item.font_formatting != null) jsonObject.put("font_formatting", marshaller.serialize(item.font_formatting));
+        if (item.text_formatting != null) jsonObject.put("text_formatting", marshaller.serialize(item.text_formatting));
         if (item.food_component != null) jsonObject.put("food_component", marshaller.serialize(item.food_component));
         if (item.item_group != null) jsonObject.put("item_group", marshaller.serialize(item.item_group));
         return jsonObject;
@@ -52,7 +52,7 @@ public class ItemData
     public Pair<Identifier, Item> asMCObject()
     {
         Identifier itemID;
-        Formatting fontFormat;
+        Formatting textFormatting;
         try
         {
             if (identifier.contains(":")) itemID = new Identifier(identifier);
@@ -65,7 +65,7 @@ public class ItemData
                     CommonEntry.MOD_ID, identifier);
             return null;
         }
-        fontFormat = Formatting.byName(font_formatting);
+        textFormatting = Formatting.byName(text_formatting);
         Item.Settings settings = new Item.Settings();
         if (food_component != null) settings.food(food_component.asMCObject());
         if (max_stack != null) settings.maxCount(max_stack);
@@ -82,6 +82,6 @@ public class ItemData
         }
         if (CommonEntry.itemGroups.containsKey(group)) settings.group(CommonEntry.itemGroups.get(group));
 
-        return new Pair<>(itemID, new CustomItem(settings, fontFormat == null ? Formatting.WHITE : fontFormat));
+        return new Pair<>(itemID, new CustomItem(settings, textFormatting == null ? Formatting.WHITE : textFormatting));
     }
 }
