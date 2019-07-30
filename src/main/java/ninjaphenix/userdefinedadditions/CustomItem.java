@@ -8,14 +8,14 @@ import net.minecraft.util.Formatting;
 
 public class CustomItem extends Item
 {
-    private final Formatting fontColor;
+    private final Formatting formatting;
 
-    public CustomItem(Settings settings, Formatting fontColor)
+    public CustomItem(Settings settings, Formatting formatting)
     {
         super(settings);
-        this.fontColor = fontColor;
+        this.formatting = formatting;
     }
 
     @Override
-    public Text getName(ItemStack stack) { return new TranslatableText(getTranslationKey(stack)).formatted(fontColor); }
+    public Text getName(ItemStack stack) { return new TranslatableText(getTranslationKey(stack)).formatted(formatting); }
 }

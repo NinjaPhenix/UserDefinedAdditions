@@ -17,7 +17,7 @@ public class Config
     public static Config INSTANCE;
 
     @Comment("\nThe default mod id for items defined without a mod id\ne.g. \"silver_coin\" instead of \"uda:silver_coin\"")
-    private final String default_modid = "uda";
+    private final String default_mod_id = "uda";
 
     @Comment("\nFor help with defining custom items see: (link to wiki page)\nA list of items identifiers which can be used in crafting, economies, or as food.")
     private final ItemData[] items = new ItemData[]{};
@@ -41,7 +41,7 @@ public class Config
         INSTANCE = ConfigManager.loadConfig(Config.class, configDirectory.resolve("UserDefinedAdditions.json").toFile());
     }
 
-    public Identifier getId(String path) { return new Identifier(default_modid, path); }
+    public Identifier getId(String path) { return new Identifier(default_mod_id, path); }
 
     public ItemData[] getItems() { return items; }
 
