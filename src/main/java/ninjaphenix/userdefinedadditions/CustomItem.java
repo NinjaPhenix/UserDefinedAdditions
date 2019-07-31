@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 
-public class CustomItem extends Item
+public final class CustomItem extends Item
 {
     private final Formatting formatting;
 

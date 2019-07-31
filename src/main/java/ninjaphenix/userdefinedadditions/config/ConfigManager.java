@@ -16,7 +16,7 @@ import java.io.IOException;
  * Modified version of CottonMC's Config Manager which can be found here: https://github.com/CottonMC/Cotton/blob/af5d07f01aebc50fc28203881a8a9dcc1a9987cc/src/main/java/io/github/cottonmc/cotton/config/ConfigManager.java
  */
 @SuppressWarnings({ "SameParameterValue", "WeakerAccess" })
-public class ConfigManager
+public final class ConfigManager
 {
 
     private static final Logger LOGGER = LogManager.getLogger();

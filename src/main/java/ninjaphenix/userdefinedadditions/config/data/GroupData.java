@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 import ninjaphenix.userdefinedadditions.config.Config;
 
-public class GroupData
+public final class GroupData
 {
     public String identifier;
     public String icon;

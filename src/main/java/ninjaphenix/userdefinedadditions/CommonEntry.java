@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonEntry implements ModInitializer
+public final class CommonEntry implements ModInitializer
 {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "userdefinedadditions";

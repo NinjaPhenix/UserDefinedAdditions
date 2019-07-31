@@ -11,7 +11,7 @@ import ninjaphenix.userdefinedadditions.CommonEntry;
 import ninjaphenix.userdefinedadditions.CustomItem;
 import ninjaphenix.userdefinedadditions.config.Config;
 
-public class ItemData
+public final class ItemData
 {
     public String identifier;
     public String text_formatting;

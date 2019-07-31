@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 
-public class StatusEffectInstanceData
+public final class StatusEffectInstanceData
 {
     public Identifier effect;
     public Integer length;

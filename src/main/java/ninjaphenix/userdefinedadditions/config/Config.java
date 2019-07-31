@@ -12,7 +12,7 @@ import ninjaphenix.userdefinedadditions.config.data.StatusEffectInstanceData;
 
 import java.nio.file.Path;
 
-public class Config
+public final class Config
 {
     public static Config INSTANCE;
 

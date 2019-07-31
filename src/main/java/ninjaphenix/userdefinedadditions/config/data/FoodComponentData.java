@@ -7,7 +7,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
 import ninjaphenix.userdefinedadditions.CommonEntry;
 
-public class FoodComponentData
+public final class FoodComponentData
 {
     public Integer hunger;
     public Float saturation;
