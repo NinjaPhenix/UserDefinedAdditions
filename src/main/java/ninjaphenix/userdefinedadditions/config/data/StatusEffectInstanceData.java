@@ -9,11 +9,11 @@ import ninjaphenix.userdefinedadditions.CommonEntry;
 
 public final class StatusEffectInstanceData
 {
-    public Identifier effect;
-    public Integer length;
-    public Integer power;
-    public Boolean visible;
-    public Float chance;
+    private final Identifier effect;
+    private final Integer length;
+    private final Integer power;
+    private final Boolean visible;
+    private final Float chance;
 
     private StatusEffectInstanceData(Identifier effect, Integer length, Integer power, Boolean visible, Float chance)
     {
@@ -61,4 +61,6 @@ public final class StatusEffectInstanceData
         boolean vis = (visible == null) ? true : visible;
         return new StatusEffectInstance(Registry.STATUS_EFFECT.get(effect), length, pow, false, vis);
     }
+
+    public Float getChance() { return chance; }
 }

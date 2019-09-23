@@ -12,8 +12,8 @@ import ninjaphenix.userdefinedadditions.config.Config;
 
 public final class GroupData
 {
-    public String identifier;
-    public String icon;
+    private final String identifier;
+    private final String icon;
 
     private GroupData(String identifier, String icon)
     {

@@ -9,12 +9,12 @@ import ninjaphenix.userdefinedadditions.CommonEntry;
 
 public final class FoodComponentData
 {
-    public Integer hunger;
-    public Float saturation;
-    public Boolean is_meat;
-    public Boolean is_always_edible;
-    public Boolean is_snack;
-    public StatusEffectInstanceData[] status_effects;
+    private final Integer hunger;
+    private final Float saturation;
+    private final Boolean is_meat;
+    private final Boolean is_always_edible;
+    private final Boolean is_snack;
+    private final StatusEffectInstanceData[] status_effects;
 
     private FoodComponentData(Integer hunger, Float saturation, Boolean is_meat, Boolean is_always_edible, Boolean is_snack,
             StatusEffectInstanceData[] status_effects)
@@ -71,7 +71,7 @@ public final class FoodComponentData
             for (StatusEffectInstanceData status_effect : status_effects)
             {
                 StatusEffectInstance inst = status_effect.asMCObject();
-                Float chance = status_effect.chance;
+                Float chance = status_effect.getChance();
                 if (chance == null || chance < 0 || chance > 1) chance = 1.0F;
                 if (inst != null) builder.statusEffect(inst, chance);
             }

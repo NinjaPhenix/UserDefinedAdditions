@@ -13,11 +13,11 @@ import ninjaphenix.userdefinedadditions.config.Config;
 
 public final class ItemData
 {
-    public String identifier;
-    public String text_formatting;
-    public FoodComponentData food_component;
-    public Integer max_stack;
-    public String item_group;
+    private final String identifier;
+    private final String text_formatting;
+    private final FoodComponentData food_component;
+    private final Integer max_stack;
+    private final String item_group;
 
     private ItemData(String identifier, String text_formatting, FoodComponentData food_component, Integer max_stack, String item_group)
     {
