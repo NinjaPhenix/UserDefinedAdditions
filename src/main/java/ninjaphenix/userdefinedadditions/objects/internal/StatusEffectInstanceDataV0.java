@@ -22,7 +22,7 @@ public class StatusEffectInstanceDataV0 implements Serializer<StatusEffectInstan
     }
 
     /**
-     * Note, whilst this is mostly a complete object the float chance to get an effect isn't represented here.
+     * Note: whilst this is mostly a complete object the float chance to get an effect isn't represented here.
      *
      * @see StatusEffectInstanceDataV0#getChance()
      */
