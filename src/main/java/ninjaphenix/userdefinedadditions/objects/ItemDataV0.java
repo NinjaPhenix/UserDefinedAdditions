@@ -5,9 +5,9 @@ import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import ninjaphenix.userdefinedadditions.Serializer;
+import ninjaphenix.userdefinedadditions.RegistryEntrySerializer;
 
-public class ItemDataV0 implements Serializer<ItemDataV0, Item>
+public class ItemDataV0 implements RegistryEntrySerializer<ItemDataV0, Item>
 {
     @Override
     public ItemDataV0 read(JsonObject object)
