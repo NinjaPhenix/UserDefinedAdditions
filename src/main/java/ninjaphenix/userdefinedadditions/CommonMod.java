@@ -3,7 +3,6 @@ package ninjaphenix.userdefinedadditions;
 import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.SyntaxError;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -18,14 +17,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class CommonMod implements ModInitializer
+public final class CommonMod
 {
-    public static final String MOD_ID = "userdefinedadditions";
-    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    private static final Path CONFIG_DIR = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(MOD_ID);
+    @SuppressWarnings("WeakerAccess") public static CommonMod INSTANCE;
+    private final String MOD_ID = "userdefinedadditions";
+    private final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private final Path CONFIG_DIR = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(MOD_ID);
+    private final Jankson jankson;
     public static Map<Identifier, ItemGroup> itemGroups = new HashMap<>();
 
-    public void initialize(Path path) throws IOException
+    public CommonMod()
+    {
+        Jankson.Builder builder = new Jankson.Builder();
+        jankson = builder.build();
+        INSTANCE = this;
+    }
+
+    private void initialize(Path path) throws IOException
     {
         if (Files.isDirectory(path))
         {
@@ -43,7 +51,7 @@ public final class CommonMod implements ModInitializer
                         final Identifier id = new Identifier(mod_id, filename.substring(0, filename.length() - 5));
                         try
                         {
-                            JsonObject object = Jankson.builder().build().load(Files.newInputStream(p, StandardOpenOption.READ));
+                            JsonObject object = jankson.load(Files.newInputStream(p, StandardOpenOption.READ));
                         }
                         catch (SyntaxError e)
                         {
@@ -66,7 +74,6 @@ public final class CommonMod implements ModInitializer
         }
     }
 
-    @Override
     public void onInitialize()
     {
         if (mkDirSafely(CONFIG_DIR))

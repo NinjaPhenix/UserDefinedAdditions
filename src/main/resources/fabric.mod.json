@@ -15,7 +15,7 @@
       "ninjaphenix.userdefinedadditions.ClientMod"
     ],
     "main": [
-      "ninjaphenix.userdefinedadditions.CommonMod"
+      "ninjaphenix.userdefinedadditions.CommonMod::onInitialize"
     ]
   },
   "depends": {
