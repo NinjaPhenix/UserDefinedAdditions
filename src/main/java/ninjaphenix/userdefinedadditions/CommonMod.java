@@ -27,7 +27,6 @@ public final class CommonMod implements ModInitializer
 
     public void initialize(Path path) throws IOException
     {
-        LOGGER.info("Folder name: " + path.getFileName());
         if (Files.isDirectory(path))
         {
             final String mod_id = path.getFileName().toString();
@@ -38,16 +37,19 @@ public final class CommonMod implements ModInitializer
                 while (paths.hasNext())
                 {
                     final Path p = paths.next();
-                    final String namespace = p.getFileName().toString();
-                    final Identifier id = new Identifier(mod_id, namespace);
-                    try
+                    String filename = p.getFileName().toString();
+                    if (filename.endsWith(".json"))
                     {
-                        JsonObject object = Jankson.builder().build().load(Files.newInputStream(p, StandardOpenOption.READ));
-                    }
-                    catch (SyntaxError e)
-                    {
-                        LOGGER.warn("Skipping {} due to invalid json detected.", id);
-                        e.printStackTrace();
+                        final Identifier id = new Identifier(mod_id, filename.substring(0, filename.length() - 5));
+                        try
+                        {
+                            JsonObject object = Jankson.builder().build().load(Files.newInputStream(p, StandardOpenOption.READ));
+                        }
+                        catch (SyntaxError e)
+                        {
+                            LOGGER.warn("Skipping {} due to invalid json detected.", id);
+                            LOGGER.throwing(e);
+                        }
                     }
                 }
             }
@@ -95,7 +97,7 @@ public final class CommonMod implements ModInitializer
             catch (IOException e)
             {
                 LOGGER.error("[{}] Failed to create directory: {}", MOD_ID, dir);
-                e.printStackTrace();
+                LOGGER.throwing(e);
                 return false;
             }
         }
