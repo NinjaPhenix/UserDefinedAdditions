@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "userdefinedadditions",
   "version": "${version}",
-  "name": "AOF Extras",
-  "description": "Additional items for AOF packs.",
+  "name": "User Defined Additions",
+  "description": "Allows the creation of additional content through json.",
   "authors": [
     "NinjaPhenix"
   ],
@@ -11,8 +11,11 @@
   "icon": "assets/userdefinedadditions/logo.png",
   "environment": "*",
   "entrypoints": {
+    "client": [
+      "ninjaphenix.userdefinedadditions.ClientMod"
+    ],
     "main": [
-      "ninjaphenix.userdefinedadditions.CommonEntry"
+      "ninjaphenix.userdefinedadditions.CommonMod"
     ]
   },
   "depends": {
