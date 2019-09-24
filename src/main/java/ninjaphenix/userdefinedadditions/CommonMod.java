@@ -29,6 +29,7 @@ public final class CommonMod
     public CommonMod()
     {
         Jankson.Builder builder = new Jankson.Builder();
+        // todo add api for others to expand on json content system.
         jankson = builder.build();
         INSTANCE = this;
     }
