@@ -37,7 +37,7 @@ public class TypeAndDataSerializer implements Serializer<TypeAndDataSerializer.D
         return rv;
     }
 
-    class Data implements Supplier<JsonObject>
+    static class Data implements Supplier<JsonObject>
     {
         private final Identifier type;
         private final Integer version;
@@ -50,7 +50,6 @@ public class TypeAndDataSerializer implements Serializer<TypeAndDataSerializer.D
             this.data = data;
         }
 
-        // todo Change this a bit more to allow for different versions of parsers.
         @Override
         public JsonObject get() { return data; }
     }

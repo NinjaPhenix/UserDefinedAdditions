@@ -7,9 +7,17 @@ import java.util.function.Supplier;
 
 public class SerializerManager
 {
-    // just a test method trying to get generics to work
-    public static <T> void registerSerializerType(Identifier id, Class<T> return_type, Serializer<? extends Supplier<T>, T> serializer)
+    private static final SerializerManager INSTANCE = new SerializerManager();
+
+    public static SerializerManager getInstance() { return INSTANCE; }
+
+    public <T> void registerSerializerType(Identifier id, int version, Class<T> return_type, Serializer<? extends Supplier<T>, T> serializer)
     {
-        System.out.println(id + ": " + return_type.getCanonicalName() + ", " + serializer.getClass().getCanonicalName());
+
+    }
+
+    public <T> Serializer<? extends Supplier<T>, T> getSerializer(Identifier id, int version)
+    {
+        return null;
     }
 }

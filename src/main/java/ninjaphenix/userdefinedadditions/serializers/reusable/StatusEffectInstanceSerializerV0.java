@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.serializers.interfaces.Serializer;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class StatusEffectInstanceSerializerV0 implements Serializer<StatusEffectInstanceSerializerV0.Data, StatusEffectInstance>
@@ -70,13 +71,18 @@ public class StatusEffectInstanceSerializerV0 implements Serializer<StatusEffect
         @Override
         public StatusEffectInstance get()
         {
-            // todo: containsId is client only!!!!
-            final StatusEffect effect = Registry.STATUS_EFFECT.containsId(this.effect) ? Registry.STATUS_EFFECT.get(this.effect) : null;
-            if (effect == null) return null;
-            final int length = this.length == null ? default_length : this.length;
-            final int power = this.power == null ? default_power : this.power;
-            final boolean visible = this.visible == null ? default_visible : this.visible;
-            return new StatusEffectInstance(effect, length, power, false, visible, visible);
+            if (this.effect != null)
+            {
+                final Optional<StatusEffect> effect = Registry.STATUS_EFFECT.getOrEmpty(this.effect);
+                if (effect.isPresent())
+                {
+                    final int length = this.length == null ? default_length : this.length;
+                    final int power = this.power == null ? default_power : this.power;
+                    final boolean visible = this.visible == null ? default_visible : this.visible;
+                    return new StatusEffectInstance(effect.get(), length, power, false, visible, visible);
+                }
+            }
+            return null;
         }
 
         /**
