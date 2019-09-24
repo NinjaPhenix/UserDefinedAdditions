@@ -17,10 +17,13 @@ public class TypeAndDataSerializer implements Serializer<TypeAndDataSerializer, 
     @Override
     public TypeAndDataSerializer read(JsonObject object)
     {
+        final Marshaller marshaller = object.getMarshaller();
         final Set<String> keySet = object.keySet();
         if (keySet.contains("type") && keySet.contains("data"))
         {
-
+            final Identifier type = marshaller.marshall(Identifier.class, object.get("type"));
+            final JsonObject data = object.getObject("data");
+            return new TypeAndDataSerializer(type, data);
         }
         return null;
     }
