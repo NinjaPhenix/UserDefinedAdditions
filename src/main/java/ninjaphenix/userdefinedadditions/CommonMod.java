@@ -20,11 +20,11 @@ import java.util.Map;
 public final class CommonMod
 {
     @SuppressWarnings("WeakerAccess") public static CommonMod INSTANCE;
+    public static Map<Identifier, ItemGroup> itemGroups = new HashMap<>();
     private final String MOD_ID = "userdefinedadditions";
     private final Logger LOGGER = LogManager.getLogger(MOD_ID);
     private final Path CONFIG_DIR = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(MOD_ID);
     private final Jankson jankson;
-    public static Map<Identifier, ItemGroup> itemGroups = new HashMap<>();
 
     public CommonMod()
     {
