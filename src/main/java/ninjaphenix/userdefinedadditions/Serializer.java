@@ -7,7 +7,7 @@ public interface Serializer<T, R>
 {
     T read(JsonObject object);
 
-    void write(T object, Marshaller marshaller);
+    JsonObject write(T object, Marshaller marshaller);
 
-    R asMCObject();
+    R asRealObject();
 }

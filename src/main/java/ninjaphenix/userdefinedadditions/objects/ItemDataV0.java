@@ -16,19 +16,19 @@ public class ItemDataV0 implements RegistryEntrySerializer<ItemDataV0, Item>
     }
 
     @Override
-    public void write(ItemDataV0 object, Marshaller marshaller)
+    public JsonObject write(ItemDataV0 object, Marshaller marshaller)
     {
-
+        return null;
     }
 
     @Override
     public Item register(Identifier id)
     {
-        return Registry.register(Registry.ITEM, id, asMCObject());
+        return Registry.register(Registry.ITEM, id, asRealObject());
     }
 
     @Override
-    public Item asMCObject()
+    public Item asRealObject()
     {
         return null;
     }
