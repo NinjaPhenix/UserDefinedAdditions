@@ -37,7 +37,7 @@ public class SerializerSerializer implements Serializer<SerializerSerializer.Dat
         return rv;
     }
 
-    static class Data implements Supplier<JsonObject>
+    public static class Data implements Supplier<JsonObject>
     {
         private final Identifier type;
         private final Integer version;
@@ -49,6 +49,10 @@ public class SerializerSerializer implements Serializer<SerializerSerializer.Dat
             this.version = version;
             this.data = data;
         }
+
+        public Identifier getType() { return type; }
+
+        public Integer getVersion() { return version == null ? 0 : version; }
 
         @Override
         public JsonObject get() { return data; }

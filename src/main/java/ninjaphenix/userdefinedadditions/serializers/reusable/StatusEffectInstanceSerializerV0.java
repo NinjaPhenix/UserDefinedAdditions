@@ -45,7 +45,7 @@ public class StatusEffectInstanceSerializerV0 implements Serializer<StatusEffect
         return rv;
     }
 
-    static class Data implements Supplier<StatusEffectInstance>
+    public static class Data implements Supplier<StatusEffectInstance>
     {
         private final Identifier effect;
         private final Integer length, power;

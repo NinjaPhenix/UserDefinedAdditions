@@ -25,7 +25,7 @@ public class ItemSerializerV0 implements Serializer<ItemSerializerV0.Data, Item>
         return null;
     }
 
-    static class Data implements RegistrableSupplier<Item>
+    public static class Data implements RegistrableSupplier<Item>
     {
         @Override
         public Item register(Identifier id)

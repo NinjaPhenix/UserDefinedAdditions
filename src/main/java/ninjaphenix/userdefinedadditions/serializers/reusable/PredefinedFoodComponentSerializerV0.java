@@ -78,7 +78,7 @@ public final class PredefinedFoodComponentSerializerV0 implements Serializer<Pre
         return rv;
     }
 
-    static class Data implements Supplier<FoodComponent>
+    public static class Data implements Supplier<FoodComponent>
     {
         private final Identifier identifier;
 

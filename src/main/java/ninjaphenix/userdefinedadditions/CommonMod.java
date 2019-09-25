@@ -6,13 +6,13 @@ import blue.endless.jankson.impl.SyntaxError;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
+import ninjaphenix.userdefinedadditions.serializers.reusable.SerializerSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,49 +29,53 @@ public final class CommonMod
     public CommonMod()
     {
         Jankson.Builder builder = new Jankson.Builder();
-        // todo add api for others to expand on json content system.
+        //builder.registerSerializer()
+        // todo add api for others to expand on json content system. Including adding their own deserializers
         jankson = builder.build();
         INSTANCE = this;
     }
 
-    private void initialize(Path path) throws IOException
+    private void initialize(Path path)
     {
-        // lets just make it load any file no matter what directory its in
         if (Files.isDirectory(path))
         {
             final String mod_id = path.getFileName().toString();
-            Path sub = path.resolve("item_groups");
-            if (dirExists(sub))
+            try
             {
-                Iterator<Path> paths = Files.list(sub).iterator();
-                while (paths.hasNext())
+                Files.walkFileTree(path, new SimpleFileVisitor<Path>()
                 {
-                    final Path p = paths.next();
-                    String filename = p.getFileName().toString();
-                    if (filename.endsWith(".json"))
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
                     {
-                        final Identifier id = new Identifier(mod_id, filename.substring(0, filename.length() - 5));
-                        try
+                        String filename = file.getFileName().toString();
+                        if (filename.endsWith(".json"))
                         {
-                            JsonObject object = jankson.load(Files.newInputStream(p, StandardOpenOption.READ));
+                            final Identifier id = new Identifier(mod_id, filename.substring(0, filename.length() - 5));
+                            try
+                            {
+                                LOGGER.info("Reading: {}", id); // REMOVE THIS
+                                JsonObject object = jankson.load(Files.newInputStream(file, StandardOpenOption.READ));
+                                SerializerSerializer.Data d = SerializerSerializer.getInstance().read(object);
+                                LOGGER.info("    wants to be deserialized with: {}, v={}", d.getType(), d.getVersion());
+                            }
+                            catch (IOException e)
+                            {
+                                LOGGER.warn("Skipping {} due to read error.", id);
+                            }
+                            catch (SyntaxError e)
+                            {
+                                LOGGER.warn("Skipping {} due to invalid json detected.", id);
+                                LOGGER.throwing(e);
+                            }
                         }
-                        catch (SyntaxError e)
-                        {
-                            LOGGER.warn("Skipping {} due to invalid json detected.", id);
-                            LOGGER.throwing(e);
-                        }
+
+                        return super.visitFile(file, attrs);
                     }
-                }
+                });
             }
-            sub = path.resolve("items");
-            if (dirExists(sub))
+            catch (IOException e)
             {
-                Iterator<Path> paths = Files.list(sub).iterator();
-            }
-            sub = path.resolve("blocks");
-            if (dirExists(sub))
-            {
-                Iterator<Path> paths = Files.list(sub).iterator();
+                LOGGER.error("File parsing interrupted, visiting a file or directory failed.");
             }
         }
     }
@@ -87,7 +91,7 @@ public final class CommonMod
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                LOGGER.error("Failed to list sub directories of {}.", CONFIG_DIR);
             }
         }
     }

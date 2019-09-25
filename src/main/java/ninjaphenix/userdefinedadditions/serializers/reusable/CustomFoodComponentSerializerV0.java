@@ -41,7 +41,7 @@ public class CustomFoodComponentSerializerV0 implements Serializer<CustomFoodCom
         return rv;
     }
 
-    static class Data implements Supplier<FoodComponent>
+    public static class Data implements Supplier<FoodComponent>
     {
         private final Integer hunger;
         private final Float saturation;
