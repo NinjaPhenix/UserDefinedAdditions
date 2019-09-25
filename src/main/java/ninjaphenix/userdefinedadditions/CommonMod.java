@@ -36,6 +36,7 @@ public final class CommonMod
 
     private void initialize(Path path) throws IOException
     {
+        // lets just make it load any file no matter what directory its in
         if (Files.isDirectory(path))
         {
             final String mod_id = path.getFileName().toString();

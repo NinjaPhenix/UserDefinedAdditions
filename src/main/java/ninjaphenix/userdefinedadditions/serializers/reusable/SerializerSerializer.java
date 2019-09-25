@@ -7,9 +7,9 @@ import ninjaphenix.userdefinedadditions.serializers.interfaces.Serializer;
 
 import java.util.function.Supplier;
 
-public class TypeAndDataSerializer implements Serializer<TypeAndDataSerializer.Data, JsonObject>
+public class SerializerSerializer implements Serializer<SerializerSerializer.Data, JsonObject>
 {
-    private static final TypeAndDataSerializer INSTANCE = new TypeAndDataSerializer();
+    private static final SerializerSerializer INSTANCE = new SerializerSerializer();
 
     public static Serializer<Data, JsonObject> getInstance() { return INSTANCE; }
 
