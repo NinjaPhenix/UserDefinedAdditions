@@ -6,60 +6,46 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import ninjaphenix.userdefinedadditions.readers.ReaderManager;
+import net.minecraft.util.registry.Registry;
+import ninjaphenix.userdefinedadditions.TEMP;
+import ninjaphenix.userdefinedadditions.api.ReaderManager;
 import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
 
-import java.util.function.Supplier;
+import java.util.Optional;
 
-public class ItemSettingsReaderV0 implements Reader<ItemSettingsReaderV0.Data, Item.Settings>
+public class ItemSettingsReaderV0 implements Reader<Item.Settings>
 {
     private static final ItemSettingsReaderV0 INSTANCE = new ItemSettingsReaderV0();
 
-    public static Reader<Data, Item.Settings> getInstance() { return INSTANCE; }
+    public static Reader<Item.Settings> getInstance() { return INSTANCE; }
 
     @Override
-    public ItemSettingsReaderV0.Data read(JsonObject object)
+    public Item.Settings read(JsonObject object)
     {
         Marshaller marshaller = object.getMarshaller();
         final Integer count = marshaller.marshall(Integer.class, object.get("max_count"));
+        final Integer damage = marshaller.marshall(Integer.class, object.get("max_damage"));
         final Identifier group = marshaller.marshall(Identifier.class, object.get("group"));
+        final Identifier recipeRemainder = marshaller.marshall(Identifier.class, object.get("recipe_remainder"));
         final Rarity rarity = marshaller.marshall(Rarity.class, object.get("rarity"));
         final JsonObject foodComponentObject = object.getObject("food_component");
         FoodComponent component = null;
         if (foodComponentObject != null)
         {
-            ReaderReader.Data data = ReaderReader.getInstance().read(foodComponentObject);
-            component = (FoodComponent) ReaderManager.getInstance().getSerializer(data.getType(), data.getVersion()).read(foodComponentObject).get();
+            ReaderReader.ReaderData data = ReaderReader.getInstance().read(foodComponentObject);
+            component = (FoodComponent) ReaderManager.getInstance().get(data.getType(), data.getVersion()).read(data.getData());
         }
-
-        return new Data(group, count, rarity, component);
-    }
-
-    public static class Data implements Supplier<Item.Settings>
-    {
-
-        private final FoodComponent component;
-        private final Identifier group;
-        private final Integer count;
-        private final Rarity rarity;
-
-        private Data(Identifier group, Integer count, Rarity rarity, FoodComponent component)
+        Item.Settings settings = new Item.Settings();
+        settings.food(component);
+        if (rarity != null) settings.rarity(rarity);
+        if (damage != null) settings.maxDamage(damage);
+        if (count != null) settings.maxCount(count);
+        if (recipeRemainder != null)
         {
-            this.group = group;
-            this.count = count;
-            this.rarity = rarity;
-            this.component = component;
+            Optional<Item> remainder = Registry.ITEM.getOrEmpty(recipeRemainder);
+            remainder.ifPresent(settings::recipeRemainder);
         }
-
-        @Override
-        public Item.Settings get()
-        {
-            Item.Settings settings = new Item.Settings();
-            settings.food(component);
-            settings.rarity(rarity);
-            if (count == null || count > 64 || count < 0) settings.maxCount(64);
-            else settings.maxCount(count);
-            return settings;
-        }
+        if (group != null && TEMP.itemGroups.containsKey(group)) settings.group(TEMP.itemGroups.get(group));
+        return settings;
     }
 }

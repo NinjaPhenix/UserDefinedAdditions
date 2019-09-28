@@ -9,10 +9,9 @@ import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 // Todo: allow modders to add their own food components to this.
-public final class PredefinedFoodComponentReaderV0 implements Reader<PredefinedFoodComponentReaderV0.Data, FoodComponent>
+public final class PredefinedFoodComponentReaderV0 implements Reader<FoodComponent>
 {
     private static final Map<Identifier, FoodComponent> foodMap;
     private static final PredefinedFoodComponentReaderV0 INSTANCE = new PredefinedFoodComponentReaderV0();
@@ -60,27 +59,14 @@ public final class PredefinedFoodComponentReaderV0 implements Reader<PredefinedF
         foodMap.put(new Identifier("minecraft", "tropical_fish"), FoodComponents.TROPICAL_FISH);
     }
 
-    public static Reader<Data, FoodComponent> getInstance() { return INSTANCE; }
+    public static Reader<FoodComponent> getInstance() { return INSTANCE; }
 
     @Override
-    public PredefinedFoodComponentReaderV0.Data read(JsonObject object)
+    public FoodComponent read(JsonObject object)
     {
         Marshaller marshaller = object.getMarshaller();
         final Identifier identifier = marshaller.marshall(Identifier.class, object.get("id"));
-        return new Data(identifier);
-    }
-
-    public static class Data implements Supplier<FoodComponent>
-    {
-        private final Identifier identifier;
-
-        private Data(Identifier identifier) { this.identifier = identifier; }
-
-        @Override
-        public FoodComponent get()
-        {
-            if (identifier != null && foodMap.containsKey(identifier)) return foodMap.get(identifier);
-            return null;
-        }
+        if (identifier != null && foodMap.containsKey(identifier)) return foodMap.get(identifier);
+        return null;
     }
 }

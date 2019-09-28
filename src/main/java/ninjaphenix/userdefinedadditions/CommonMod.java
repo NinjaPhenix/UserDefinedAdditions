@@ -1,14 +1,21 @@
 package ninjaphenix.userdefinedadditions;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import ninjaphenix.userdefinedadditions.api.ContentAdder;
+import ninjaphenix.userdefinedadditions.api.ReaderManager;
+
+import java.util.List;
 
 public class CommonMod implements ModInitializer
 {
     @Override
     public void onInitialize()
     {
-        TEMP temp = TEMP.getInstance();
+        List<ContentAdder> adders = FabricLoader.getInstance().getEntrypoints("uda_plugin", ContentAdder.class);
 
-        temp.onInitialize();
+        adders.forEach((adder) -> adder.addReaders(ReaderManager.getInstance()));
+
+        TEMP.getInstance().onInitialize();
     }
 }

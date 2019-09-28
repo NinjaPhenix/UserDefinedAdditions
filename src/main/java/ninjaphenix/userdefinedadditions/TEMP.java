@@ -2,17 +2,14 @@ package ninjaphenix.userdefinedadditions;
 
 import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonObject;
-import blue.endless.jankson.JsonPrimitive;
 import blue.endless.jankson.impl.SyntaxError;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
-import ninjaphenix.userdefinedadditions.readers.ReaderManager;
+import net.minecraft.util.Rarity;
+import ninjaphenix.userdefinedadditions.api.ReaderManager;
 import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
-import ninjaphenix.userdefinedadditions.readers.main.ItemReaderV0;
-import ninjaphenix.userdefinedadditions.readers.reusable.CustomFoodComponentReaderV0;
-import ninjaphenix.userdefinedadditions.readers.reusable.ItemSettingsReaderV0;
-import ninjaphenix.userdefinedadditions.readers.reusable.PredefinedFoodComponentReaderV0;
+import ninjaphenix.userdefinedadditions.readers.interfaces.RegisterableReader;
 import ninjaphenix.userdefinedadditions.readers.reusable.ReaderReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,23 +28,39 @@ public final class TEMP
     private static TEMP instance;
     private final String MOD_ID = "userdefinedadditions";
     private final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    private final ArrayList<String> loadOrder;
     private final Path CONFIG_DIR = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(MOD_ID);
     private final Jankson jankson;
 
     private TEMP()
     {
+        // todo replace with custom object with methods like addAfter("biome", "item_groups")
+        loadOrder = new ArrayList<>();
+        loadOrder.add("item_groups");
+        loadOrder.add("items");
+        loadOrder.add("blocks");
+
+
         Jankson.Builder builder = new Jankson.Builder();
-        builder.registerSerializer(Identifier.class, (id, marshaller) -> new JsonPrimitive(id.toString()));
-        builder.registerPrimitiveTypeAdapter(Identifier.class, (it) -> (it instanceof String) ? new Identifier((String) it) : new Identifier(it.toString()));
+        builder.registerPrimitiveTypeAdapter(Identifier.class, (it) -> new Identifier(it.toString()));
+        builder.registerPrimitiveTypeAdapter(Rarity.class, (it) -> {
+            switch (it.toString().toUpperCase())
+            {
+                case "COMMON":
+                    return Rarity.COMMON;
+                case "RARE":
+                    return Rarity.RARE;
+                case "UNCOMMON":
+                    return Rarity.UNCOMMON;
+                case "EPIC":
+                    return Rarity.EPIC;
+                default:
+                    return null;
+            }
+        });
         // todo add api for others to expand on json content system. Including adding their own deserializers
         jankson = builder.build();
         instance = this;
-
-        ReaderManager manager = ReaderManager.getInstance();
-        manager.registerSerializerType(new Identifier("minecraft", "item"), 0, ItemReaderV0.getInstance());
-        manager.registerSerializerType(new Identifier("minecraft", "item_settings"), 0, ItemSettingsReaderV0.getInstance());
-        manager.registerSerializerType(new Identifier("minecraft", "predefined_food_component"), 0, PredefinedFoodComponentReaderV0.getInstance());
-        manager.registerSerializerType(new Identifier("minecraft", "food_component"), 0, CustomFoodComponentReaderV0.getInstance());
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -74,24 +88,32 @@ public final class TEMP
                             final Identifier id = new Identifier(mod_id, filename.substring(0, filename.length() - 5));
                             try
                             {
-                                LOGGER.info("Reading: {}", id); // REMOVE THIS
+                                LOGGER.info("Reading: {}", id);
                                 JsonObject object = jankson.load(Files.newInputStream(file, StandardOpenOption.READ));
-                                ReaderReader.Data d = ReaderReader.getInstance().read(object);
-                                LOGGER.info("    wants to be deserialized with: {}, v={}", d.getType(), d.getVersion());
-                                Reader<?, ?> serializer = ReaderManager.getInstance().getSerializer(d.getType(), d.getVersion());
+                                ReaderReader.ReaderData d = ReaderReader.getInstance().read(object);
+                                LOGGER.info("    wants to be read by: {}, v={}", d.getType(), d.getVersion());
+                                Reader<?> serializer = ReaderManager.getInstance().get(d.getType(), d.getVersion());
                                 if (serializer == null)
                                 {
-                                    LOGGER.info("       read: serializer not found");
+                                    LOGGER.info("       read: reader not found");
                                 }
                                 else
                                 {
-                                    LOGGER.info("        read: {}", serializer.read(d.get()));
-                                    LOGGER.info("        get: {}", serializer.read(d.get()).get());
+                                    if (serializer instanceof RegisterableReader)
+                                    {
+
+                                        LOGGER.info("        read: {}", ((RegisterableReader<?>) serializer).read(d.getData(), id));
+                                    }
+                                    else
+                                    {
+
+                                        LOGGER.info("        read: {}", serializer.read(d.getData()));
+                                    }
                                 }
                             }
                             catch (IOException e)
                             {
-                                LOGGER.warn("Skipping {} due to read error.", id);
+                                LOGGER.warn("Skipping {} due to file read error.", id);
                             }
                             catch (SyntaxError e)
                             {
