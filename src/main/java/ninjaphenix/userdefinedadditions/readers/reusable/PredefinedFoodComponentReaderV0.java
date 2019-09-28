@@ -1,21 +1,21 @@
-package ninjaphenix.userdefinedadditions.serializers.reusable;
+package ninjaphenix.userdefinedadditions.readers.reusable;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.FoodComponents;
 import net.minecraft.util.Identifier;
-import ninjaphenix.userdefinedadditions.serializers.interfaces.Serializer;
+import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 // Todo: allow modders to add their own food components to this.
-public final class PredefinedFoodComponentSerializerV0 implements Serializer<PredefinedFoodComponentSerializerV0.Data, FoodComponent>
+public final class PredefinedFoodComponentReaderV0 implements Reader<PredefinedFoodComponentReaderV0.Data, FoodComponent>
 {
     private static final Map<Identifier, FoodComponent> foodMap;
-    private static final PredefinedFoodComponentSerializerV0 INSTANCE = new PredefinedFoodComponentSerializerV0();
+    private static final PredefinedFoodComponentReaderV0 INSTANCE = new PredefinedFoodComponentReaderV0();
 
     static
     {
@@ -60,22 +60,14 @@ public final class PredefinedFoodComponentSerializerV0 implements Serializer<Pre
         foodMap.put(new Identifier("minecraft", "tropical_fish"), FoodComponents.TROPICAL_FISH);
     }
 
-    public static Serializer<Data, FoodComponent> getInstance() { return INSTANCE; }
+    public static Reader<Data, FoodComponent> getInstance() { return INSTANCE; }
 
     @Override
-    public PredefinedFoodComponentSerializerV0.Data read(JsonObject object)
+    public PredefinedFoodComponentReaderV0.Data read(JsonObject object)
     {
         Marshaller marshaller = object.getMarshaller();
         final Identifier identifier = marshaller.marshall(Identifier.class, object.get("id"));
         return new Data(identifier);
-    }
-
-    @Override
-    public JsonObject write(PredefinedFoodComponentSerializerV0.Data object, Marshaller marshaller)
-    {
-        final JsonObject rv = new JsonObject();
-        if (object.identifier != null) rv.put("id", marshaller.serialize(object.identifier));
-        return rv;
     }
 
     public static class Data implements Supplier<FoodComponent>

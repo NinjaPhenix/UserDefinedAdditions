@@ -1,17 +1,17 @@
-package ninjaphenix.userdefinedadditions.serializers.reusable;
+package ninjaphenix.userdefinedadditions.readers.reusable;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.util.Identifier;
-import ninjaphenix.userdefinedadditions.serializers.interfaces.Serializer;
+import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
 
 import java.util.function.Supplier;
 
-public class SerializerSerializer implements Serializer<SerializerSerializer.Data, JsonObject>
+public class ReaderReader implements Reader<ReaderReader.Data, JsonObject>
 {
-    private static final SerializerSerializer INSTANCE = new SerializerSerializer();
+    private static final ReaderReader INSTANCE = new ReaderReader();
 
-    public static Serializer<Data, JsonObject> getInstance() { return INSTANCE; }
+    public static Reader<Data, JsonObject> getInstance() { return INSTANCE; }
 
     @Override
     public Data read(JsonObject object)
@@ -25,16 +25,6 @@ public class SerializerSerializer implements Serializer<SerializerSerializer.Dat
             return new Data(type, version, data);
         }
         return null;
-    }
-
-    @Override
-    public JsonObject write(Data object, Marshaller marshaller)
-    {
-        final JsonObject rv = new JsonObject();
-        rv.put("type", marshaller.serialize(object.type));
-        rv.put("version", marshaller.serialize(object.version));
-        rv.put("data", object.data);
-        return rv;
     }
 
     public static class Data implements Supplier<JsonObject>

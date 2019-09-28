@@ -1,4 +1,4 @@
-package ninjaphenix.userdefinedadditions.serializers.reusable;
+package ninjaphenix.userdefinedadditions.readers.reusable;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
@@ -6,23 +6,23 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import ninjaphenix.userdefinedadditions.serializers.interfaces.Serializer;
+import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class StatusEffectInstanceSerializerV0 implements Serializer<StatusEffectInstanceSerializerV0.Data, StatusEffectInstance>
+public class StatusEffectInstanceReaderV0 implements Reader<StatusEffectInstanceReaderV0.Data, StatusEffectInstance>
 {
     private static final Integer default_length = 5;
     private static final Integer default_power = 1;
     private static final Boolean default_visible = Boolean.TRUE;
     private static final Float default_chance = 1.0f;
-    private static final StatusEffectInstanceSerializerV0 INSTANCE = new StatusEffectInstanceSerializerV0();
+    private static final StatusEffectInstanceReaderV0 INSTANCE = new StatusEffectInstanceReaderV0();
 
-    public static Serializer<Data, StatusEffectInstance> getInstance() { return INSTANCE; }
+    public static Reader<Data, StatusEffectInstance> getInstance() { return INSTANCE; }
 
     @Override
-    public StatusEffectInstanceSerializerV0.Data read(JsonObject object)
+    public StatusEffectInstanceReaderV0.Data read(JsonObject object)
     {
         Marshaller marshaller = object.getMarshaller();
         final Identifier effect = marshaller.marshall(Identifier.class, object.get("effect"));
@@ -31,18 +31,6 @@ public class StatusEffectInstanceSerializerV0 implements Serializer<StatusEffect
         final Boolean visible = marshaller.marshall(Boolean.class, object.get("visible"));
         final Float chance = marshaller.marshall(Float.class, object.get("change"));
         return new Data(effect, length, power, visible, chance);
-    }
-
-    @Override
-    public JsonObject write(StatusEffectInstanceSerializerV0.Data object, Marshaller marshaller)
-    {
-        final JsonObject rv = new JsonObject();
-        if (object.effect != null) rv.put("effect", marshaller.serialize(object.effect));
-        if (object.length != null) rv.put("length", marshaller.serialize(object.length));
-        if (object.power != null) rv.put("power", marshaller.serialize(object.power));
-        if (object.visible != null) rv.put("visible", marshaller.serialize(object.visible));
-        if (object.chance != null) rv.put("chance", marshaller.serialize(object.chance));
-        return rv;
     }
 
     public static class Data implements Supplier<StatusEffectInstance>
