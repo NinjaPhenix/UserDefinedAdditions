@@ -16,9 +16,6 @@
     ],
     "main": [
       "ninjaphenix.userdefinedadditions.CommonMod"
-    ],
-    "uda_plugin": [
-      "ninjaphenix.userdefinedadditions.UDA_ContentAdder"
     ]
   },
   "depends": {

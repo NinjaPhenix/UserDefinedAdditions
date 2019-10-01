@@ -3,7 +3,7 @@ package ninjaphenix.userdefinedadditions.api;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import net.minecraft.util.Identifier;
-import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.Reader;
 
 public class ReaderManager
 {

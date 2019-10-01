@@ -1,9 +1,9 @@
-package ninjaphenix.userdefinedadditions.readers.reusable;
+package ninjaphenix.userdefinedadditions.api.readers;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 import net.minecraft.item.FoodComponent;
-import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.Reader;
 
 public class CustomFoodComponentReaderV0 implements Reader<FoodComponent>
 {

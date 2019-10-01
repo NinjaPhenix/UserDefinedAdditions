@@ -1,4 +1,4 @@
-package ninjaphenix.userdefinedadditions.readers.reusable;
+package ninjaphenix.userdefinedadditions.api.readers;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
@@ -7,7 +7,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
-import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.Reader;
 
 import java.util.Optional;
 

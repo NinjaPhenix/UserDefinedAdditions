@@ -5,9 +5,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import ninjaphenix.userdefinedadditions.api.ReaderManager;
-import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
-import ninjaphenix.userdefinedadditions.readers.interfaces.RegisterableReader;
-import ninjaphenix.userdefinedadditions.readers.reusable.ReaderReader;
+import ninjaphenix.userdefinedadditions.api.readers.ReaderReader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.Reader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.RegisterableReader;
 
 public class ItemReaderV0 implements RegisterableReader<Item>
 {

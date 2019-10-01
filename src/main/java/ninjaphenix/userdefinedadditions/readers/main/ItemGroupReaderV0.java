@@ -8,7 +8,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import ninjaphenix.userdefinedadditions.readers.interfaces.RegisterableReader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.RegisterableReader;
 
 import java.util.Optional;
 

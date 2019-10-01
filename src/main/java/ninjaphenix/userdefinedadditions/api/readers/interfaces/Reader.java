@@ -1,4 +1,4 @@
-package ninjaphenix.userdefinedadditions.readers.interfaces;
+package ninjaphenix.userdefinedadditions.api.readers.interfaces;
 
 import blue.endless.jankson.JsonObject;
 

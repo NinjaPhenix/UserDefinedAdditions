@@ -1,4 +1,4 @@
-package ninjaphenix.userdefinedadditions.readers.reusable;
+package ninjaphenix.userdefinedadditions.api.readers;
 
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
@@ -7,9 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
-import ninjaphenix.userdefinedadditions.TEMP;
+import ninjaphenix.userdefinedadditions.ContentLoader;
 import ninjaphenix.userdefinedadditions.api.ReaderManager;
-import ninjaphenix.userdefinedadditions.readers.interfaces.Reader;
+import ninjaphenix.userdefinedadditions.api.readers.interfaces.Reader;
 
 import java.util.Optional;
 
@@ -45,7 +45,7 @@ public class ItemSettingsReaderV0 implements Reader<Item.Settings>
             Optional<Item> remainder = Registry.ITEM.getOrEmpty(recipeRemainder);
             remainder.ifPresent(settings::recipeRemainder);
         }
-        if (group != null && TEMP.itemGroups.containsKey(group)) settings.group(TEMP.itemGroups.get(group));
+        if (group != null && ContentLoader.itemGroups.containsKey(group)) settings.group(ContentLoader.itemGroups.get(group));
         return settings;
     }
 }
