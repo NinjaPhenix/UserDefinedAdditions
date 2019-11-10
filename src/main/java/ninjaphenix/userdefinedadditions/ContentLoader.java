@@ -97,7 +97,12 @@ public final class ContentLoader
                                     {
                                         if (serializer instanceof RegisterableReader)
                                         {
-                                            LOGGER.info("        read: {}", ((RegisterableReader<?>) serializer).read(d.getData(), id));
+                                            Object obj = ((RegisterableReader<?>) serializer).read(d.getData(), id);
+                                            LOGGER.info("        read: {}", obj);
+                                            if (obj instanceof ItemGroup)
+                                            {
+                                                itemGroups.put(id, (ItemGroup) obj);
+                                            }
                                         }
                                         else
                                         {

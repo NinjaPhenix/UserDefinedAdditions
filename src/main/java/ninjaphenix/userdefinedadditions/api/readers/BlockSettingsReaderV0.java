@@ -34,13 +34,13 @@ public class BlockSettingsReaderV0 implements Reader<Block.Settings>
             materialColor = (MaterialColor) ReaderManager.getInstance().get(data.getType(), data.getVersion()).read(data.getData());
         }
         FabricBlockSettings settings = FabricBlockSettings.of(material, materialColor);
-        if (marshaller.marshall(Boolean.class, object.get("no_collision"))) settings.noCollision();
+        if (Boolean.TRUE.equals(marshaller.marshall(Boolean.class, object.get("no_collision")))) settings.noCollision();
         else
         {
             final Float slipperiness = marshaller.marshall(Float.class, object.get("slipperiness"));
             if (slipperiness != null) settings.slipperiness(slipperiness);
         }
-        if (marshaller.marshall(Boolean.class, object.get("break_instantly"))) settings.breakInstantly();
+        if (Boolean.TRUE.equals(marshaller.marshall(Boolean.class, object.get("break_instantly")))) settings.breakInstantly();
         else
         {
             final Float hardness = marshaller.marshall(Float.class, object.get("hardness"));
