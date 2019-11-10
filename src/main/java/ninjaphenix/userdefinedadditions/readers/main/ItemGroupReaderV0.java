@@ -36,8 +36,5 @@ public class ItemGroupReaderV0 implements RegisterableReader<ItemGroup>
     }
 
     @Override
-    public ItemGroup read(JsonObject object)
-    {
-        throw new UnsupportedOperationException("Reader#read method not supported for item group readers.");
-    }
+    public ItemGroup read(JsonObject object) { throw new UnsupportedOperationException("Reader#read method not supported for item group readers."); }
 }

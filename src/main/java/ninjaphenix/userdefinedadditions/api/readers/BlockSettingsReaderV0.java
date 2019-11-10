@@ -21,13 +21,12 @@ public class BlockSettingsReaderV0 implements Reader<Block.Settings>
         final Marshaller marshaller = object.getMarshaller();
         final JsonObject materialObject = object.getObject("material");
         final JsonObject materialColorObject = object.getObject("material_color");
-        Material material = null;
-        if (materialObject != null)
+        Material material;
+        if (materialObject == null) return null;
         {
             ReaderReader.ReaderData data = ReaderReader.getInstance().read(materialObject);
             material = (Material) ReaderManager.getInstance().get(data.getType(), data.getVersion()).read(data.getData());
         }
-        else return null;
         MaterialColor materialColor = material.getColor();
         if (materialColorObject != null)
         {
