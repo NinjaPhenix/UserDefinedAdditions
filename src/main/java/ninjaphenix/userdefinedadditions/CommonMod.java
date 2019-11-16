@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import io.github.cottonmc.staticdata.StaticData;
 import io.github.cottonmc.staticdata.StaticDataItem;
 import net.fabricmc.api.ModInitializer;
+import ninjaphenix.userdefinedadditions.builders.BlockBuilder;
+import ninjaphenix.userdefinedadditions.builders.FoodComponentBuilder;
+import ninjaphenix.userdefinedadditions.builders.ItemBuilder;
+import ninjaphenix.userdefinedadditions.constants.Tools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +16,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.Supplier;
 
 public class CommonMod implements ModInitializer
 {
@@ -23,7 +28,7 @@ public class CommonMod implements ModInitializer
         if (scriptFiles.size() > 0)
         {
             ScriptEngineManager manager = new ScriptEngineManager();
-            // Expose objects here with .put
+            exposeContent(manager);
             for (StaticDataItem scriptFile : scriptFiles)
             {
                 String filePath = scriptFile.getIdentifier().getPath();
@@ -60,5 +65,13 @@ public class CommonMod implements ModInitializer
         {
             logger.info("UDA found no script files, for help getting started see: https://www.helpwithmymod.exampleurl/");
         }
+    }
+
+    private void exposeContent(ScriptEngineManager manager)
+    {
+        manager.put("BlockBuilder", (Supplier<BlockBuilder>) BlockBuilder::new);
+        manager.put("ItemBuilder", (Supplier<ItemBuilder>) ItemBuilder::new);
+        manager.put("FoodComponentBuilder", (Supplier<FoodComponentBuilder>) FoodComponentBuilder::new);
+        manager.put("Tools", Tools.INSTANCE);
     }
 }
