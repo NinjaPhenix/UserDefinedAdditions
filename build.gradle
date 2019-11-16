@@ -21,9 +21,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${loader_version}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
 
-    // Jankson
-    modImplementation("io.github.cottonmc:Jankson:1.0.0+j1.1.2")
-    include("io.github.cottonmc:Jankson:1.0.0+j1.1.2" )
+    // Static Data
+    modImplementation("io.github.cottonmc:StaticData:1.1.2")
+    include("io.github.cottonmc:StaticData:1.1.2")
 
     // ModMenu
     modImplementation("io.github.prospector:modmenu:1.7.1+build.109")
