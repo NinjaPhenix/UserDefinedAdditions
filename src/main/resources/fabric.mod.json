@@ -18,7 +18,14 @@
       "ninjaphenix.userdefinedadditions.CommonMod"
     ]
   },
+  "mixins": [
+    {
+      "config": "userdefinedadditions.mixins.common.json",
+      "environment": "*"
+    }
+  ],
   "depends": {
-    "fabricloader": ">=0.6.0"
+    "fabricloader": ">=0.6.0",
+    "fabric": ">0.4.0"
   }
 }

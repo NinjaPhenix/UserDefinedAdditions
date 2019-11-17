@@ -1,74 +1,75 @@
 package ninjaphenix.userdefinedadditions.constants;
 
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.tools.FabricToolTags;
+import net.minecraft.item.Item;
+import net.minecraft.tag.Tag;
 
 public class Tools
 {
     public static final Tools INSTANCE = new Tools();
+    // Maybe abstract tool types into a javascript friendly type with a .name or .id attribute
     // <editor-fold desc="Tool Types">
-    public final String PICKAXE = "fabric:pickaxes";
-    public final String AXE = "fabric:axes";
-    public final String SHOVEL = "fabric:shovels";
-    public final String HOE = "fabric:hoes";
-    public final String SWORD = "fabric:swords";
+    public final Tag<Item> PICKAXE = FabricToolTags.PICKAXES;
+    public final Tag<Item> AXE = FabricToolTags.AXES;
+    public final Tag<Item> SHOVEL = FabricToolTags.SHOVELS;
+    public final Tag<Item> HOE = FabricToolTags.HOES;
+    public final Tag<Item> SWORD = FabricToolTags.SWORDS;
     // </editor-fold>
     // <editor-fold desc="Tool Tiers">
     public final int WOOD_TIER = 0;
     public final int STONE_TIER = 1;
     public final int IRON_TIER = 2;
-    // </editor-fold>
     public final int DIAMOND_TIER = 3;
+    // </editor-fold>
     //<editor-fold desc="Pickaxes">
-    public final Tool WOOD_PICKAXE = Tool.of(PICKAXE, WOOD_TIER);
-    public final Tool STONE_PICKAXE = Tool.of(PICKAXE, STONE_TIER);
-    public final Tool IRON_PICKAXE = Tool.of(PICKAXE, IRON_TIER);
-    public final Tool DIAMOND_PICKAXE = Tool.of(PICKAXE, DIAMOND_TIER);
+    public final Tool WOOD_PICKAXE = new Tool(PICKAXE, WOOD_TIER);
+    public final Tool STONE_PICKAXE = new Tool(PICKAXE, STONE_TIER);
+    public final Tool IRON_PICKAXE = new Tool(PICKAXE, IRON_TIER);
+    public final Tool DIAMOND_PICKAXE = new Tool(PICKAXE, DIAMOND_TIER);
     //</editor-fold>
     //<editor-fold desc="Swords">
-    public final Tool WOOD_SWORD = Tool.of(SWORD, WOOD_TIER);
-    public final Tool STONE_SWORD = Tool.of(SWORD, STONE_TIER);
-    public final Tool IRON_SWORD = Tool.of(SWORD, IRON_TIER);
-    public final Tool DIAMOND_SWORD = Tool.of(SWORD, DIAMOND_TIER);
+    public final Tool WOOD_SWORD = new Tool(SWORD, WOOD_TIER);
+    public final Tool STONE_SWORD = new Tool(SWORD, STONE_TIER);
+    public final Tool IRON_SWORD = new Tool(SWORD, IRON_TIER);
+    public final Tool DIAMOND_SWORD = new Tool(SWORD, DIAMOND_TIER);
     //</editor-fold>
     //<editor-fold desc="Shovels">
-    public final Tool WOOD_SHOVEL = Tool.of(SHOVEL, WOOD_TIER);
-    public final Tool STONE_SHOVEL = Tool.of(SHOVEL, STONE_TIER);
-    public final Tool IRON_SHOVEL = Tool.of(SHOVEL, IRON_TIER);
-    public final Tool DIAMOND_SHOVEL = Tool.of(SHOVEL, DIAMOND_TIER);
+    public final Tool WOOD_SHOVEL = new Tool(SHOVEL, WOOD_TIER);
+    public final Tool STONE_SHOVEL = new Tool(SHOVEL, STONE_TIER);
+    public final Tool IRON_SHOVEL = new Tool(SHOVEL, IRON_TIER);
+    public final Tool DIAMOND_SHOVEL = new Tool(SHOVEL, DIAMOND_TIER);
     //</editor-fold>
     //<editor-fold desc="Hoes">
-    public final Tool WOOD_HOE = Tool.of(HOE, WOOD_TIER);
-    public final Tool STONE_HOE = Tool.of(HOE, STONE_TIER);
-    public final Tool IRON_HOE = Tool.of(HOE, IRON_TIER);
-    public final Tool DIAMOND_HOE = Tool.of(HOE, DIAMOND_TIER);
+    public final Tool WOOD_HOE = new Tool(HOE, WOOD_TIER);
+    public final Tool STONE_HOE = new Tool(HOE, STONE_TIER);
+    public final Tool IRON_HOE = new Tool(HOE, IRON_TIER);
+    public final Tool DIAMOND_HOE = new Tool(HOE, DIAMOND_TIER);
     //</editor-fold>
     //<editor-fold desc="Axes">
-    public final Tool WOOD_AXE = Tool.of(AXE, WOOD_TIER);
-    public final Tool STONE_AXE = Tool.of(AXE, STONE_TIER);
-    public final Tool IRON_AXE = Tool.of(AXE, IRON_TIER);
+    public final Tool WOOD_AXE = new Tool(AXE, WOOD_TIER);
+    public final Tool STONE_AXE = new Tool(AXE, STONE_TIER);
+    public final Tool IRON_AXE = new Tool(AXE, IRON_TIER);
+    public final Tool DIAMOND_AXE = new Tool(AXE, DIAMOND_TIER);
     //</editor-fold>
-    public final Tool DIAMOND_AXE = Tool.of(AXE, DIAMOND_TIER);
 
     private Tools() {}
 
-    public Tool of(String type, int miningLevel) { return Tool.of(type, miningLevel); }
-
     public static class Tool
     {
-        public String ToolType;
-        public int MiningLevel;
+        public final String type;
+        public final int miningLevel;
+        private final Tag<Item> _tag;
 
-        private Tool(Identifier type, int level)
+        private Tool(Tag<Item> type, int miningLevel)
         {
-            ToolType = type.toString(); // ensures the tool has a valid identifier
-            MiningLevel = level;
+            this.type = type.getId().toString();
+            _tag = type;
+            this.miningLevel = miningLevel;
         }
 
-        private static Tool of(String type, int level)
+        public Tag<Item> getTag()
         {
-            Identifier iType = Identifier.tryParse(type);
-            if (iType == null) throw new IllegalArgumentException("type must be a valid identifier.");
-            return new Tool(iType, level);
+            return _tag;
         }
     }
 }

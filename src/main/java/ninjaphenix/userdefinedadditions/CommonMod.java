@@ -7,7 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import ninjaphenix.userdefinedadditions.builders.BlockBuilder;
 import ninjaphenix.userdefinedadditions.builders.FoodComponentBuilder;
 import ninjaphenix.userdefinedadditions.builders.ItemBuilder;
-import ninjaphenix.userdefinedadditions.constants.Tools;
+import ninjaphenix.userdefinedadditions.constants.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,9 +69,13 @@ public class CommonMod implements ModInitializer
 
     private void exposeContent(ScriptEngineManager manager)
     {
-        manager.put("BlockBuilder", (Supplier<BlockBuilder>) BlockBuilder::new);
-        manager.put("ItemBuilder", (Supplier<ItemBuilder>) ItemBuilder::new);
-        manager.put("FoodComponentBuilder", (Supplier<FoodComponentBuilder>) FoodComponentBuilder::new);
-        manager.put("Tools", Tools.INSTANCE);
+        manager.put("Block", BlockBuilder.Factory.INSTANCE);
+        manager.put("Item", (Supplier<ItemBuilder>) ItemBuilder::new);
+        manager.put("FoodComponent", (Supplier<FoodComponentBuilder>) FoodComponentBuilder::new);
+        manager.put("Tool", Tools.INSTANCE);
+        manager.put("MaterialColor", MaterialColors.INSTANCE);
+        manager.put("Material", Materials.INSTANCE);
+        manager.put("ItemGroup", ItemGroups.INSTANCE);
+        manager.put("StatusEffect", _StatusEffects.INSTANCE);
     }
 }
